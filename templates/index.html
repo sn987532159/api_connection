@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>template</title>
+</head>
+<body>
+    <h1>HIIIIII!This is the main page~</h1>
+    <button id="GET">
+        GET
+    </button>
+
+    <input type="text", id = 'delID'>
+
+    <button id="DELETE">
+        DELETE
+    </button>
+
+    <input type="text" id="name">
+    <input type="text" id="gender">
+    <input type="text" id="nickname">
+    <button id="REGISTER">
+        REGISTER
+    </button>
+
+    <button id="LOGIN">
+        LOGIN
+    </button>
+
+    <input type="text" id="IDID">
+    <button id="UPDATE">
+        UPDATE
+    </button>
+
+    <script>
+        const btnGet = document.querySelector('#GET')
+
+        btnGet.addEventListener('click', function(){
+            fetch('http://127.0.0.1:5000/school')
+                .then((response) => response.json())
+                .then((data) => {
+                    // if(data.success){
+                        // if(data.result.length > 0){
+                            // loop
+                            // for (let i = 0; i < data.result.length; i++) {data.result;}
+                        // }
+                    // }
+                    console.log(data);
+                    console.log(data['result'])});
+        })
+
+        const delID = document.querySelector('#delID')
+
+        const btnDel = document.querySelector('#DELETE')
+        btnDel.addEventListener('click', function(){
+            console.log('delID:', delID.value);
+            // fetch('http://127.0.0.1:5000/school/'+delID.value)
+            fetch(`http://127.0.0.1:5000/school/${delID.value}`, {method:'DELETE'}) //後端怎寫，這裡就要怎寫
+                .then((response) => response.json())
+                .then((data) => console.log('delete ID:',data['result']));
+        })
+
+        const name = document.querySelector('#name')
+        const gender = document.querySelector('#gender')
+        const nickname = document.querySelector('#nickname')
+        const btnRes = document.querySelector('#REGISTER')
+
+        btnRes.addEventListener('click', function(){
+            console.log('name', name.value);
+            console.log('gender', gender.value);
+            console.log('nickname', nickname.value);
+            
+            fetch(`http://127.0.0.1:5000/newStudent`, {method:'POST', body: JSON.stringify({name:name.value, gender:gender.value, nickname:nickname.value}), headers:{'content-type':'application/json'}}) //後端怎寫，這裡就要怎寫, stringify轉字串
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data)
+                    console.log('welcome',data['name'], data['nickname'])
+                });
+        })
+
+        const btnLogin = document.querySelector('#LOGIN')
+
+        btnLogin.addEventListener('click', function(){
+            console.log('name', name.value);
+            console.log('nickname', nickname.value);
+            
+            fetch(`http://127.0.0.1:5000/login`, {method:'POST', body: JSON.stringify({name:name.value, nickname:nickname.value}), headers:{'content-type':'application/json'}}) //後端怎寫，這裡就要怎寫, stringify轉字串
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data)
+                    console.log('welcome back',data['name'], data['nickname'])
+                });
+        })
+
+        const btnUpdate = document.querySelector('#UPDATE')
+        const IDID = document.querySelector('#IDID')
+
+        btnUpdate.addEventListener('click', function(){
+            console.log('name', name.value);
+            console.log('nickname', nickname.value);
+            console.log('id', IDID.value);
+            
+            fetch(`http://127.0.0.1:5000/update/${IDID.value}`, {method:'PUT', body: JSON.stringify({id:IDID.value, name:name.value, nickname:nickname.value}), headers:{'content-type':'application/json'}}) //後端怎寫，這裡就要怎寫, stringify轉字串
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data)
+                    console.log('update ID as',data['id'])
+                });
+        })
+
+    </script>
+</body>
+</html>
